@@ -59,4 +59,4 @@ df['dividend'] = df['dividend'].fillna(0)
 # === Salvar resultado ===
 df.to_csv("spy_processed_data.csv")
 
-print("[INFO] Indicadores calculados e dados salvos em 'spy_processed_data.csv'")
+print("[INFO] Calculated indicators and data saved in 'spy_processed_data.csv'")

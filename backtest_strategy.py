@@ -202,7 +202,7 @@ for d in range(1, len(all_days)):
 # === Save trades
 trades_df = pd.DataFrame(trades)
 trades_df.to_csv("trades.csv", index=False)
-print("[INFO] trades.csv gerado com", len(trades_df), "registos.")
+print("[INFO] trades.csv saved with", len(trades_df), "records")
 
 # === Performance stats
 strat['AUM_SPX'] = AUM_0 * (1 + strat['ret_spy']).cumprod(skipna=True)
