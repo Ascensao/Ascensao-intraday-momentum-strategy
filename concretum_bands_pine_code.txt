@@ -1,0 +1,88 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © foreignHead16013
+
+//@version=5
+indicator("Concretum Bands",overlay = true,max_bars_back = 5000,max_lines_count = 500)
+
+k=input.int(10,"Length")
+vm=input.float(1,"Volatility Multiplier")
+ncol=input.color(color.rgb(255, 235, 59, 70),"NoiseArea color")
+ucol=input.color(color.rgb(1, 1, 1, 70),"Upperbound color")
+lcol=input.color(color.rgb(1, 1, 1, 70),"Lowerbound color")
+extend=input.int(30,"Extend Plotting",maxval=250,inline = "one")
+useext=input.bool(true,"",inline="one")
+if useext==false
+    extend:=0
+var n=0 // n is number of bars in the current timeframe
+var bool first=true
+
+
+if first
+    n:=n+1
+
+if session.islastbar and first
+    first:=false
+
+var bool skipper=true
+var skipper_counter=0
+if skipper
+    skipper_counter:=skipper_counter+1
+
+if skipper_counter==k*n+1
+    skipper:=false
+//----------------------------------------------
+var candle_counter=0
+var float upperbound=0
+var float lowerbound=0
+var float firstconstant=0
+var float secondconstant=0
+
+candle_counter:=candle_counter+1
+if session.isfirstbar
+    candle_counter:=0
+    firstconstant:=open>close[1]?open:close[1]
+    secondconstant:=open<close[1]?open:close[1]
+    upperbound:=open
+    lowerbound:=open
+if skipper==false and candle_counter!=0
+    //                       num             deno                        -1
+    j=1
+    sigma=0.0
+    while j<=k
+        move=math.abs(       (  close[n*j]/open[j*n+candle_counter] )   -1          )
+        sigma:=sigma+move
+        j:=j+1
+    sigma:=sigma/k
+    upperbound:=firstconstant*(1+vm*sigma)
+    lowerbound:=secondconstant*(1-vm*sigma)
+
+u=plot(upperbound,color=ucol)
+l=plot(lowerbound,color =lcol)
+fill(u,l,color=ncol)
+
+// plotting forward
+prevuy=upperbound
+prevlt=lowerbound
+
+if skipper==false  and  barstate.isrealtime
+    
+    lm=1
+    while lm<=(n-candle_counter)
+        j=1
+        sigma=0.0
+        while j<=k
+            move=math.abs(       (  close[(n*j)-lm]/open[j*n+candle_counter] )   -1          )
+            sigma:=sigma+move
+            j:=j+1
+            
+        sigma:=sigma/k
+        extu=firstconstant*(1+vm*sigma)
+        extl=secondconstant*(1-vm*sigma)
+        //log.info(str.tostring(extu)+" ----- "+str.tostring(extl))
+        line.new(bar_index+lm-1,prevuy,bar_index+lm,extu,color = ucol)
+        line.new(bar_index+lm-1,prevlt,bar_index+lm,extl,color= lcol)
+        prevuy:=extu
+        prevlt:=extl
+        lm:=lm+1
+        if lm>extend
+            break
