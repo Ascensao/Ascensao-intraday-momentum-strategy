@@ -1,62 +1,49 @@
-## `fetch_data.py`
+# 📈 Intraday Momentum Strategy – SPY ETF
+[![SSRN Paper](https://img.shields.io/badge/Paper-SSRN-blue)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172)
 
-#### Este script conecta-se à API da Polygon.io para obter dados históricos do ETF SPY. Ele coleta:
+This repository implements and analyzes the strategy described in the paper:
+“Beat the Market: An Effective Intraday Momentum Strategy for S&P500 ETF (SPY)”.
 
-- Dados intradiários (1 minuto) durante o horário regular do mercado (09:30–15:59)
-- Dados diários (OHLCV)
-- Histórico de dividendos
-
-##### Os dados são salvos localmente em arquivos CSV:
-
-- `spy_intra_data.csv`
-
-- `spy_daily_data.csv`
-
-- `spy_dividends.csv`
+It includes end-to-end data acquisition, preprocessing, indicator calculation, strategy backtesting, and performance evaluation, all applied to SPY intraday data from Polygon.io.
 
 ---
 
-## `prepare_indicators.py`
+## 🎯 Objective
 
-Este script processa os dados intradiários do SPY (1 minuto) e calcula os principais indicadores necessários para o backtest da estratégia.
+To replicate and evaluate an intraday momentum strategy that uses dynamic volatility bands and VWAP to generate long/short signals on the SPY ETF. The strategy is compared against a passive S&P 500 buy-and-hold benchmark using historical data.
 
-#### ✅ O que o script faz:
+---
 
-1. Carrega os dados salvos:
+## 🧱 Project Structure and order of execution
 
-- spy_intra_data.csv (dados intradiários)
-- spy_dividends.csv (dados de dividendos)
+1. `download_market_data.py`   -->	 Downloads minute-level and daily OHLCV data from Polygon.io, along with dividend events. (No need to execute, price data files already in folder).
+2. `prepare_indicators.py`	   -->   Prepares required features per minute: VWAP, volatility bands (sigma_open), and open-relative returns.
+3. `backtest_strategy.py`	   -->   Runs the core backtest logic, simulates trade entries/exits based on band breakouts and VWAP filters, and logs trades to trades.csv.
+4. `check_results.py`	       -->   Post-backtest performance analysis, including Sharpe, alpha, beta, win rate, drawdown, and monthly/yearly return tables.
 
-
-2. Prepara o DataFrame:
-
-- Converte a coluna de data/hora (caldt)
-- Extrai apenas a data (day) para análise diária
-- Define o índice como datetime para facilitar operações temporais
+`Polygon_Vs_Alpaca_Market_Data/` --> (Optional) Script-based comparison between Polygon.io and Alpaca market data. This folder is not essential to the main project and serves only to investigate minor timestamp and value discrepancies between the two data providers.
 
 
-3. Agrupa os dados por dia:
 
-- Para calcular métricas diárias como VWAP, volatilidade, etc.
-- Calcula os indicadores:
-- vwap: Volume Weighted Average Price diário
-- move_open: Variação percentual absoluta em relação à abertura
-- spy_dvol: Volatilidade móvel de 15 dias (baseada nos fechamentos diários)
-- sigma_open: Desvio padrão (σ) da variação da abertura, por minuto do dia
+## 📈 Output
 
+- `trades.csv`: All simulated trades, including time, price, size, side (long/short), P&L, and reason for exit.
 
-4. Adiciona métricas por minuto:
+- Strategy vs. Benchmark plot
 
-- Calcula o número de minutos desde a abertura (09:30)
-- Agrupa por minute_of_day e calcula médias móveis e sigma_open
+- Summary statistics and regression metrics (alpha, beta)
+
+- Monthly & yearly return breakdown
+
+- Long vs. short trade summary
 
 
-5. Integra os dividendos:
+## 📎 Additionally
 
-- Mescla os dividendos com base nas datas de ex-dividendo
-- Preenche valores ausentes com 0
+- `concretum_bands_pine_code.txt`   -->   Pine Script code for TradingView to visualize the upper and lower bands (UB, LB) and VWAP used by the strategy. Useful for visually validating trade signals and price behavior.
+
+- `Beat the Market An Effective Intraday Momentum Strategy for S&P500 ETF (SPY).pdf`  -->  Original research paper detailing the logic and theoretical motivation behind the intraday momentum strategy implemented in this project.
 
 
-6. Salva o resultado final:
+These resources are provided for full transparency and reproducibility of the strategy, and to allow further experimentation or validation in platforms like TradingView.
 
-- Exporta o DataFrame processado como spy_processed_data.csv
