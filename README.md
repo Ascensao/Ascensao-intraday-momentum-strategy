@@ -6,13 +6,11 @@ This repository implements and analyzes the strategy described in the paper:
 
 It includes end-to-end data acquisition, preprocessing, indicator calculation, strategy backtesting, and performance evaluation, all applied to SPY intraday data from Polygon.io.
 
----
 
 ## 🎯 Objective
 
 To replicate and evaluate an intraday momentum strategy that uses dynamic volatility bands and VWAP to generate long/short signals on the SPY ETF. The strategy is compared against a passive S&P 500 buy-and-hold benchmark using historical data.
 
----
 
 ## 🧱 Project Structure and order of execution
 
