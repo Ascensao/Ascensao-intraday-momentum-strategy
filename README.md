@@ -1,8 +1,8 @@
 # 📈 Intraday Momentum Strategy – SPY ETF
 [![SSRN Paper](https://img.shields.io/badge/Paper-SSRN-blue)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172)
 
-This repository implements and analyzes the strategy described in the paper:
-“Beat the Market: An Effective Intraday Momentum Strategy for S&P500 ETF (SPY)”.
+This repository implements and analyzes the strategy described in the paper:  
+[“Beat the Market: An Effective Intraday Momentum Strategy for S&P500 ETF (SPY)”](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172).
 
 It includes end-to-end data acquisition, preprocessing, indicator calculation, strategy backtesting, and performance evaluation, all applied to SPY intraday data from Polygon.io.
 
@@ -39,8 +39,6 @@ To replicate and evaluate an intraday momentum strategy that uses dynamic volati
 ## 📎 Additionally
 
 - `concretum_bands_pine_code.txt`   -->   Pine Script code for TradingView to visualize the upper and lower bands (UB, LB) and VWAP used by the strategy. Useful for visually validating trade signals and price behavior.
-
-- `Beat the Market An Effective Intraday Momentum Strategy for S&P500 ETF (SPY).pdf`  -->  Original research paper detailing the logic and theoretical motivation behind the intraday momentum strategy implemented in this project.
 
 
 These resources are provided for full transparency and reproducibility of the strategy, and to allow further experimentation or validation in platforms like TradingView.
