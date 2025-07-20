@@ -36,6 +36,23 @@ To replicate and evaluate an intraday momentum strategy that uses dynamic volati
 - Long vs. short trade summary
 
 
+## 📊 Strategy Results & Replication Accuracy
+
+Below are two visuals that summarize the performance and accuracy of this replication compared to the original paper:
+
+### 📈 Strategy vs. Buy & Hold
+
+This chart compares the cumulative returns of the replicated intraday momentum strategy against a simple buy & hold on SPY:
+
+
+## 📅 Monthly Return Comparison
+
+The table below shows the monthly returns from the original paper (PDF) versus this repository's backtest (TEST), from 2016 to 2024:
+
+
+As seen above, the replication closely tracks the paper’s reported results, especially on a yearly basis, validating the accuracy of the strategy implementation.
+
+
 ## 📎 Additionally
 
 - `concretum_bands_pine_code.txt`   -->   Pine Script code for TradingView to visualize the upper and lower bands (UB, LB) and VWAP used by the strategy. Useful for visually validating trade signals and price behavior.
