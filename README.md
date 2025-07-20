@@ -42,7 +42,6 @@ Below are two visuals that summarize the performance and accuracy of this replic
 
 ### 📈 Strategy vs. Buy & Hold
 
-<img width="1400" height="281" alt="compare_returns" src="https://github.com/user-attachments/assets/8ddf25fb-c838-424f-916f-ae67673e7c50" />
 <img width="940" height="554" alt="strategy" src="https://github.com/user-attachments/assets/4f924e07-15a7-4488-aba1-d23a9b2bb272" />
 
 This chart compares the cumulative returns of the replicated intraday momentum strategy against a simple buy & hold on SPY:
@@ -50,7 +49,6 @@ This chart compares the cumulative returns of the replicated intraday momentum s
 
 ## 📅 Monthly Return Comparison
 
-<img width="940" height="554" alt="strategy" src="https://github.com/user-attachments/assets/358d833e-4e5e-4f8e-b641-84e762ca3af1" />
 <img width="1400" height="281" alt="compare_returns" src="https://github.com/user-attachments/assets/d081f357-e727-45b8-b9f2-66cadd5079a1" />
 
 
