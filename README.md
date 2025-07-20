@@ -1,67 +1,76 @@
-# 📈 Intraday Momentum Strategy – SPY ETF
+# 📈 Intraday Momentum Strategy – SPY ETF  
 [![SSRN Paper](https://img.shields.io/badge/Paper-SSRN-blue)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172)
 
-This repository implements and analyzes the strategy described in the paper:  
-[“Beat the Market: An Effective Intraday Momentum Strategy for S&P500 ETF (SPY)”](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172).
+This repository replicates and evaluates the strategy presented in the paper:  
+[**“Beat the Market: An Effective Intraday Momentum Strategy for S&P500 ETF (SPY)”**](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4824172).
 
-It includes end-to-end data acquisition, preprocessing, indicator calculation, strategy backtesting, and performance evaluation, all applied to SPY intraday data from Polygon.io.
+It provides an end-to-end pipeline covering data acquisition, preprocessing, feature engineering, backtesting, and performance evaluation using SPY intraday data from Polygon.io.
 
+---
 
 ## 🎯 Objective
 
-To replicate and evaluate an intraday momentum strategy that uses dynamic volatility bands and VWAP to generate long/short signals on the SPY ETF. The strategy is compared against a passive S&P 500 buy-and-hold benchmark using historical data.
+To replicate and validate an intraday momentum strategy based on VWAP and dynamic volatility bands (σ_open), designed to generate long/short signals on the SPY ETF. Strategy performance is benchmarked against a passive S&P 500 buy-and-hold portfolio.
 
+---
 
-## 🧱 Project Structure and order of execution
+## 🧱 Project Structure (Execution Order)
 
-1. `download_market_data.py`   -->	 Downloads minute-level and daily OHLCV data from Polygon.io, along with dividend events. (No need to execute, price data files already in folder).
-2. `prepare_indicators.py`	   -->   Prepares required features per minute: VWAP, volatility bands (sigma_open), and open-relative returns.
-3. `backtest_strategy.py`	   -->   Runs the core backtest logic, simulates trade entries/exits based on band breakouts and VWAP filters, and logs trades to trades.csv.
-4. `check_results.py`	       -->   Post-backtest performance analysis, including Sharpe, alpha, beta, win rate, drawdown, and monthly/yearly return tables.
+1. `download_market_data.py`  
+   Downloads minute-level and daily OHLCV data from Polygon.io, along with dividend events.  
+   ⚠️ _Note: Data files are already included. This repository contains data starting from 2019 due to GitHub’s 100MB file size constraint._
 
-`Polygon_Vs_Alpaca_Market_Data/` --> (Optional) Script-based comparison between Polygon.io and Alpaca market data. This folder is not essential to the main project and serves only to investigate minor timestamp and value discrepancies between the two data providers.
+2. `prepare_indicators.py`  
+   Computes VWAP, open-relative returns, σ_open, and other required features on a per-minute basis.
 
+3. `backtest_strategy.py`  
+   Implements the trading logic, executes backtests, and logs all trades (with timestamps, entry/exit prices, size, P&L, and exit reason) into `trades.csv`.
 
+4. `check_results.py`  
+   Performs post-analysis: Sharpe ratio, alpha, beta, drawdowns, win rate, and detailed monthly/yearly return breakdowns.
+
+5. `Polygon_Vs_Alpaca_Market_Data/`  
+   _Optional:_ Scripts for comparing Alpaca vs. Polygon data quality. Not required for running the strategy. Included only for transparency and inspection of data discrepancies (timestamp alignment, row count, OHLCV values, etc.).
+
+---
 
 ## 📈 Output
 
-- `trades.csv`: All simulated trades, including time, price, size, side (long/short), P&L, and reason for exit.
+- `trades.csv` — Complete trade log (side, size, entry/exit time & price, P&L, reason)
+- Strategy vs. S&P 500 (Buy & Hold) performance plot
+- Sharpe ratio, alpha, beta, max drawdown, win rate
+- Monthly and yearly return tables
+- Long/short trade breakdown
 
-- Strategy vs. Benchmark plot
-
-- Summary statistics and regression metrics (alpha, beta)
-
-- Monthly & yearly return breakdown
-
-- Long vs. short trade summary
-
+---
 
 ## 📊 Strategy Results & Replication Accuracy
 
-Below are two visuals that summarize the performance and accuracy of this replication compared to the original paper:
+The following visuals demonstrate the replication’s accuracy when compared with the original paper’s reported results:
 
 ### 📈 Strategy vs. Buy & Hold
 
 <img width="937" height="474" alt="strategy" src="https://github.com/user-attachments/assets/34776315-d627-48e0-9b0f-706e78d18a48" />
 
-This chart compares the cumulative returns of the replicated intraday momentum strategy against a simple buy & hold on SPY:
+This chart shows cumulative returns of the replicated intraday strategy versus a passive SPY buy-and-hold.
 
+---
 
-## 📅 Monthly Return Comparison
+### 📅 Monthly Return Comparison
 
 <img width="1400" height="281" alt="compare_returns" src="https://github.com/user-attachments/assets/d081f357-e727-45b8-b9f2-66cadd5079a1" />
 
+Monthly returns from the original paper (**PDF**) and this repository’s backtest (**TEST**) for 2016–2024.
 
-This table shows the monthly returns from the original paper (PDF) versus this repository's backtest (TEST), from 2016 to 2024:
+📌 _The replication aligns closely with the original paper’s yearly returns, reinforcing the reliability of the implementation._
 
+---
 
-As seen above, the replication closely tracks the paper’s reported results, especially on a yearly basis, validating the accuracy of the strategy implementation.
+## 📎 Additional Resources
 
+- `concretum_bands_pine_code.txt`  
+  Pine Script for TradingView to plot VWAP and the upper/lower trading bands (UB/LB) used in the strategy. Useful for visual validation of signal logic.
 
-## 📎 Additionally
+---
 
-- `concretum_bands_pine_code.txt`   -->   Pine Script code for TradingView to visualize the upper and lower bands (UB, LB) and VWAP used by the strategy. Useful for visually validating trade signals and price behavior.
-
-
-These resources are provided for full transparency and reproducibility of the strategy, and to allow further experimentation or validation in platforms like TradingView.
-
+This repository aims to provide a transparent, reproducible, and well-structured implementation of the strategy for further research, analysis, or adaptation.
